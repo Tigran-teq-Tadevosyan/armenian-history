@@ -1,0 +1,24 @@
+{
+  "name": "armenian-history",
+  "version": "0.1.0",
+  "description": "\"This project intends to make exploreation of armenian history museums and galleries easier and to create opportunity for it's users to be able to share reviews (In academic format) between each other\"",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tigran-teq-Tadevosyan/armenian-history.git"
+  },
+  "keywords": [
+    "node.js",
+    "history",
+    "armenia"
+  ],
+  "author": " <Tigran Tadevosyan>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Tigran-teq-Tadevosyan/armenian-history/issues"
+  },
+  "homepage": "https://github.com/Tigran-teq-Tadevosyan/armenian-history#readme"
+}
