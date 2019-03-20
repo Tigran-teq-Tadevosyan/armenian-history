@@ -1,0 +1,11 @@
+{
+    "db" : {
+      "host" : "mongodb://admin:garikpsac4@ds119996.mlab.com:19996/heroku_x3schrvh"
+    },
+    "port" : 80,
+    "JWT_SECRET" : "lobsterlincoln",
+    "dir" : {
+      "sass" : "./www/sass",
+      "css" : "./www/css"
+    }
+  }
