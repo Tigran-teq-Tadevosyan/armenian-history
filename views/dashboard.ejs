@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Admin panel</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="css/mdb.min.css" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href="css/style.min.css" rel="stylesheet">
+  <!-- CSS for promp box -->
+  <link rel="stylesheet" type="text/css" href="../dist/prompt-boxes.min.css">
+
+  <style>
+
+    .map-container{
+    overflow:hidden;
+    padding-bottom:56.25%;
+    position:relative;
+    height:0;
+    }
+    .map-container iframe{
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    position:absolute;
+    }
+  </style>
+
+  <script src="dist/prompt-boxes.min.js"></script>
+</head>
+
+<body class="grey lighten-3">
+
+  <!--Main Navigation-->
+  <header>
+
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+      
+    </nav>
+    <!-- Navbar -->
+
+    <!-- Sidebar -->
+    <div class="sidebar-fixed position-fixed">
+
+      <a class="logo-wrapper waves-effect" style="text-align:center;width:100%;">
+        <img src="/assets/images/art-122x122.png" class="img-fluid" style="display: inline-block" alt="">
+      </a>
+
+      <div class="list-group list-group-flush">
+        <a href="#" class="list-group-item active waves-effect">
+          <i class="fas mr-3"></i>Museums
+        </a>
+        <a href="#" class="list-group-item list-group-item-action waves-effect">
+          <i class="fas mr-3"></i>Books</a>
+        <a href="#" class="list-group-item list-group-item-action waves-effect">
+          <i class="fas mr-3"></i>Reviews</a>
+      </div>
+
+    </div>
+    <!-- Sidebar -->
+
+  </header>
+  <!--Main Navigation-->
+
+  <%- include(partial) %>
+
+  <!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="js/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="js/mdb.min.js"></script>
+  <!-- Initializations -->
+  <script type="text/javascript">
+    // Animations initialization
+    new WOW().init();
+
+  </script>
+</body>
+
+</html>
