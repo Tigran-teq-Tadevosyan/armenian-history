@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" >
+   <head>
+      <meta charset="UTF-8">
+      <title>Add Review</title>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+      <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+      <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'>
+      <link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
+      <style>
+        #success_message{ display: none;}
+      </style>
+   </head>
+   <body>
+      <div class="container" style="margin-top:10%;">
+         <form class="well form-horizontal" action=" " method="post"  id="contact_form">
+            <fieldset>
+               <!-- Form Name -->
+               <legend style="text-align:center;">Add Your Review</legend>
+               
+               <!-- Basic summary -->
+               <div class="form-group">
+                  <label class="col-md-4 control-label">Basic Summary</label>
+                  <div class="col-md-4 inputGroupContainer">
+                     <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                        <textarea class="form-control" name="basic_summery" placeholder="Basic Summary"></textarea>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Before Visiting -->
+               <div class="form-group">
+                  <label class="col-md-4 control-label">Before Visiting (website, convenience, parking)</label>
+                  <div class="col-md-4 inputGroupContainer">
+                     <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                        <textarea class="form-control" name="before_visiting" placeholder="Before Visiting"></textarea>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- The Visit Itself -->
+               <div class="form-group">
+                  <label class="col-md-4 control-label">The Visit Itself (doorstep, welcome, the museum staff, trip, from room to room, presentation, personifying, the quality of presentation, affordability, intermission, novelty, restrooms, merchandise shop)</label>
+                  <div class="col-md-4 inputGroupContainer">
+                     <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                        <textarea class="form-control" name="the_visit_itself" placeholder="The Visit Itself"></textarea>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- After Visiting -->
+               <div class="form-group">
+                  <label class="col-md-4 control-label">After Visiting, Reflection</label>
+                  <div class="col-md-4 inputGroupContainer">
+                     <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                        <textarea class="form-control" name="after_visiting" placeholder="After Visiting, Reflection"></textarea>
+                     </div>
+                  </div>
+               </div>
+               <!-- Success message -->
+               <div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Thanks for contacting us, we will get back to you shortly.</div>
+               <!-- Button -->
+               <div class="form-group">
+                  <label class="col-md-4 control-label"></label>
+                  <div class="col-md-4">
+                     <button type="submit" class="btn btn-warning" >Submit <span class="glyphicon glyphicon-send"></span></button>
+                  </div>
+               </div>
+            </fieldset>
+         </form>
+      </div>
+      </div><!-- /.container -->
+      <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+      <script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+      <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
+      <script>
+          $(document).ready(function() {
+            $('#contact_form').bootstrapValidator({
+                // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    comment: {
+                        validators: {
+                              stringLength: {
+                                min: 10,
+                                max: 200,
+                                message:'Please enter at least 10 characters and no more than 200'
+                            },
+                            notEmpty: {
+                                message: 'Please supply a description of your project'
+                            }
+                        }
+                    },
+                    basic_summery:{
+                        validators: {
+                              stringLength: {
+                                min: 10,
+                                max: 225,
+                                message:'Please enter at least 10 characters and no more than 225'
+                            },
+                            notEmpty: {
+                                message: 'Please supply a basic summery for your review'
+                            }
+                        }
+                    },
+                    before_visiting:{
+                        validators: {
+                              stringLength: {
+                                min: 10,//450,
+                                max: 900,
+                                message:'Please enter at least 450 characters and no more than 900'
+                            },
+                            notEmpty: {
+                                message: 'Please supply a before visiting for your review'
+                            }
+                        }
+                    },
+                    the_visit_itself:{
+                        validators: {
+                              stringLength: {
+                                min: 10,//2025,
+                                max: 2700,
+                                message:'Please enter at least 2025 characters and no more than 2700'
+                            },
+                            notEmpty: {
+                                message: 'Please supply a the visit itself for your review'
+                            }
+                        }
+                    },
+                    after_visiting:{
+                        validators: {
+                              stringLength: {
+                                min: 10,
+                                max: 450,
+                                message:'Please enter at least 10 characters and no more than 450'
+                            },
+                            notEmpty: {
+                                message: 'Please supply a after visiting for your review'
+                            }
+                        }
+                    },
+                }
+                })
+                .on('success.form.bv', function(e) {
+                    $('#success_message').slideDown({ opacity: "show" }, "slow") // Do something ...
+                        $('#contact_form').data('bootstrapValidator').resetForm();
+
+                    // Prevent form submission
+                    e.preventDefault();
+
+                    // Get the form instance
+                    var $form = $(e.target);
+
+                    // Get the BootstrapValidator instance
+                    var bv = $form.data('bootstrapValidator');
+
+                    // Use Ajax to submit form data
+                    $.post($form.attr('action'), $form.serialize(), function(result) {
+                        console.log(result);
+                    }, 'json');
+                });
+        });
+      </script>
+   </body>
+</html>

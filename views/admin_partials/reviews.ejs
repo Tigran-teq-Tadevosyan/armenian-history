@@ -1,0 +1,115 @@
+  <!--Main layout-->
+  <main class="pt-50 mx-lg-5">
+    <% for(let i = 0; i < reviews.length; ++i){%>
+        <div class="container-fluid mt-5">
+    
+          <!--Grid row-->
+          <div class="row wow fadeIn">
+    
+            <!--Grid column-->
+            <div class="col-md-12 mb-4">
+    
+              <!--Card-->
+              <div class="card">
+    
+                <!--Card content-->
+                <div class="card-body">
+    
+                  <!-- Table  -->
+                  <table class="table table-hover">
+  
+                  <!-- Table body -->
+                  <tbody>
+                      <tr>
+                        <th scope="row">Basic summary</th>
+                        <td><%= reviews[i].basic_summery%></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Before visiting</th>
+                        <td><%= reviews[i].before_visiting%></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">The Visit itself</th>
+                        <td><%= reviews[i].the_visit_itself%></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">After visiting</th>
+                        <td><%= reviews[i].after_visiting%></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- Table  -->
+                  <button type="button" class="btn btn-success approve-review" data-id="<%= reviews[i]._id%>">Approve</button>
+                  <button type="button" class="btn btn-danger disprove-review" data-id="<%= reviews[i]._id%>">Disapprove</button>
+                </div>
+    
+              </div>
+              <!--/.Card-->
+    
+            </div>
+            <!--Grid column-->
+    
+          </div>
+          <!--grid row-->
+    
+        </div>
+        <% } %>
+      </main>
+      <!--Main layout-->
+
+
+  <!-- Prompt script -->
+  <script>
+
+
+        // This is the prompt script part
+    
+        var pb = new PromptBoxes({
+          attrPrefix: 'pb',
+          speeds: {
+            backdrop: 250, // The enter/leaving animation speed of the backdrop
+            toasts: 250 // The enter/leaving animation speed of the toast
+          },
+          prompt: {
+            inputType: 'text', // The type of input 'text' | 'password' etc.
+            submitText: 'Submit', // The text for the submit button
+            submitClass: '', // A class for the submit button
+            cancelText: 'Cancel', // The text for the cancel button
+            cancelClass: '', // A class for the cancel button
+            closeWithEscape: true, // Allow closing with escaping
+            absolute: false // Show prompt popup as absolute
+          }
+        });
+    
+        
+
+        window.onload = ()=>{
+           $('.sidebar-fixed a').removeClass("active") 
+           $('#link_to_reviews').addClass("active");
+           $('.disprove-review').click((event)=>{
+               pb.prompt(
+                    function (value) {
+                    if(!value) return false;
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '/admin/disprovereview', true);
+                        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                        xhr.send(JSON.stringify({'id':$(event.target).data("id"), 'comment': value}));
+                        setTimeout(function(){ location.reload(true); }, 500);
+                    },
+                    'Write you comment',
+                    'input',
+                    '',
+                    'Submit',
+                    'Cancel'
+                );
+           });
+           $('.approve-review').click((event)=>{
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/admin/approvereview', true);
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhr.send(JSON.stringify({'id':$(event.target).data("id")}));
+                setTimeout(function(){ location.reload(true); }, 500);
+           });
+        };
+      </script>
+    

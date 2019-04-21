@@ -5,6 +5,8 @@ const router = express.Router();
 const mailer = require('../utils/mailer');
 const User = require('../models/User.js');
 const Museum = require('../models/Museum.js');
+const PendingMuseumReveiw = require('../models/PendingMuseumReveiw.js');
+
 
 var pendingUsers = [];
 
@@ -95,6 +97,30 @@ router.get('/pendinguser/:id', function (req, res) {
   });
 });
 
+router.get('/unitmuseum/:id', function(req, res){
+    Museum.findOne({_id:req.params.id},(err,museum) => {
+      if(!museum || err) return res.redirect("/");
+      res.render('layout',{
+          partial:"partials/unit.ejs",
+          museum:museum,
+          transparent:false,
+          user:req.user
+      });
+    });
+});
+
+router.get('/addreview/:id', function(req, res){
+  Museum.findOne({_id:req.params.id},(err,museum) => {
+    if(!museum || err) return res.redirect("/");
+    res.render('partials/addreview.ejs',{
+        partial:"partials/addreview.ejs",
+        museum:museum,
+        transparent:false,
+        user:req.user
+    });
+  });
+});
+
 // Adding post reqs
 
 router.post('/login', function (req, res) {
@@ -116,6 +142,31 @@ router.post('/signup', function (req, res) {
     pendingID:pendingID
   });
   res.redirect('/checkinbox');
+});
+
+router.post('/addreview/:id', function(req, res){
+  Museum.findOne({_id:req.params.id},(err,museum) => {
+    if(!museum || err) return res.redirect("/");
+    console.log('museum',museum);
+    console.log('user',req.user);
+    let new_PendingMuseumReveiw = new PendingMuseumReveiw({
+        museum_id: museum._id,
+        user_id: req.user._id,
+        username: req.user.username,
+        basic_summery:req.body.basic_summery,
+        before_visiting:req.body.before_visiting,
+        the_visit_itself:req.body.the_visit_itself,
+        after_visiting:req.body.after_visiting,
+        comment: "",
+        status: "pending"
+    });
+    new_PendingMuseumReveiw.save((err,pendingReveiw)=>{
+      if(err || !pendingReveiw) return res.redirect('/profile');
+      req.user.reviews.push(pendingReveiw._id);
+      req.user.save();
+      res.redirect('/profile');
+    });
+  });
 });
 
 module.exports = router;
