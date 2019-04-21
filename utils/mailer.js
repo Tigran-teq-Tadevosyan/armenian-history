@@ -15,7 +15,7 @@ module.exports = (username,email,pendingID) => {
         from: 'Armeninan History',
         to: email,//'edwardassassin357@gmail.com'
         subject: 'Account activation',
-        text: 'Welcome ' + username + '! Click to this link to activate you account http://localhost/pendinguser/' + pendingID + '. This link is active for 1 hour.'
+        text: 'Welcome ' + username + '! Click to this link to activate you account https://armenian-history.herokuapp.com/pendinguser/' + pendingID + '. This link is active for 1 hour.'
       };
       
       transporter.sendMail(mailOptions, function(error, info){

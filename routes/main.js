@@ -32,10 +32,18 @@ router.get('/', function (req, res) {
 });
 
 router.get('/profile', function (req, res) {
-  res.render('layout',{
-    partial:"partials/profile.ejs",
-    transparent: false,
-    user: req.user
+  MuseumReview.find({user_id: req.user._id},(err,user_reviews)=>{
+    if(!user_reviews || err) return res.redirect("/");
+    PendingMuseumReveiw.find({user_id: req.user._id},(err,user_pendingreviews)=>{
+      if(!user_pendingreviews || err) return res.redirect("/");
+      res.render('layout',{
+        partial:"partials/profile.ejs",
+        transparent: false,
+        user: req.user,
+        reviews: user_reviews,
+        pendingreviews: user_pendingreviews
+      });
+    });
   });
 });
 
@@ -126,6 +134,17 @@ router.get('/addreview/:id', function(req, res){
   });
 });
 
+router.get('/resubmit/:id', function(req, res){
+  PendingMuseumReveiw.findOne({_id:req.params.id},(err,review) => {
+    if(!review || err) return res.redirect("/");
+    res.render('partials/resubmit.ejs',{
+        review:review,
+        transparent:false,
+        user:req.user
+    });
+  });
+});
+
 // Adding post reqs
 
 router.post('/login', function (req, res) {
@@ -169,6 +188,21 @@ router.post('/addreview/:id', function(req, res){
       if(err || !pendingReveiw) return res.redirect('/profile');
       req.user.reviews.push(pendingReveiw._id);
       req.user.save();
+      res.redirect('/profile');
+    });
+  });
+});
+
+router.post('/resubmit/:id', function(req, res){
+  PendingMuseumReveiw.findOne({_id:req.params.id},(err,review) => {
+    if(!review || err) return res.redirect("/");
+    review.basic_summery = req.body.basic_summery;
+    review.before_visiting = req.body.before_visiting;
+    review.the_visit_itself = req.body.the_visit_itself;
+    review.after_visiting = req.body.after_visiting;
+    review.comment = '';
+    review.status = 'pending'
+    review.save(()=>{
       res.redirect('/profile');
     });
   });

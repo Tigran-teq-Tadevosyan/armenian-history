@@ -108,7 +108,7 @@
                 xhr.open('POST', '/admin/approvereview', true);
                 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
                 xhr.send(JSON.stringify({'id':$(event.target).data("id")}));
-                setTimeout(function(){ location.reload(true); }, 500);
+                setTimeout(function(){ location.reload(true); }, 1500);
            });
         };
       </script>
