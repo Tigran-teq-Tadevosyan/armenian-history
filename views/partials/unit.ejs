@@ -57,23 +57,41 @@
 
                 </div>
                 <!--Card-1-->
-                <div class="card px-3 col-12">
-                    <div class="card-wrapper media-container-row media-container-row">
-                        <div class="card-box">
-                            <div class="top-line pb-3">
-                                <h4 class="card-title mbr-fonts-style display-5">
-                                Review 1
-                            </h4>
-                                <p class="mbr-text cost mbr-fonts-style m-0 display-5">3 Stars</p>
-                            </div>
-                            <div class="bottom-line">
-                                <p class="mbr-text mbr-fonts-style m-0 b-descr display-7">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, odit?
-                                </p>
+
+                <% for(let i = 0; i < reviews.length; ++i){%>
+                    <div class="card px-3 col-12">
+                        <div class="card-wrapper media-container-row media-container-row">
+                            <div class="card-box">
+                                <div class="top-line pb-3">
+                                    <h4 class="card-title mbr-fonts-style display-5">
+                                            <%= reviews[i].username%>
+                                </h4>
+                                    <p class="mbr-text cost mbr-fonts-style m-0 display-5"></p>
+                                </div>
+                                <div class="bottom-line" style="padding-bottom:10px">
+                                    <p class="mbr-text mbr-fonts-style m-0 b-descr display-7">
+                                            <i style="color:black">Basic Summary: </i><%= reviews[i].basic_summery%>
+                                    </p>
+                                </div>
+                                <div class="bottom-line" style="padding-bottom:10px">
+                                    <p class="mbr-text mbr-fonts-style m-0 b-descr display-7">
+                                            <i style="color:black">Before Visiting: </i><%= reviews[i].before_visiting%>
+                                    </p>
+                                </div>
+                                <div class="bottom-line" style="padding-bottom:10px">
+                                    <p class="mbr-text mbr-fonts-style m-0 b-descr display-7">
+                                            <i style="color:black">The Visit Itself: </i><%= reviews[i].the_visit_itself%>
+                                    </p>
+                                </div>
+                                <div class="bottom-line">
+                                    <p class="mbr-text mbr-fonts-style m-0 b-descr display-7">
+                                            <i style="color:black">After Visiting, Reflection: </i><%= reviews[i].after_visiting%>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                <% } %>
                 <!--Card-2-->
                 <div class="card px-3 col-12">
                     <div class="card-wrapper media-container-row media-container-row">

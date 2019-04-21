@@ -10,10 +10,10 @@ const MuseumReveiw = require('../models/MuseumReview.js');
 // define the home page route
 router.get('/', function (req, res) {
     Museum.find({},(err,museums)=>{
-	res.render('dashboard',{
-	    partial:"admin_partials/museums.ejs",
-	    museums:museums
-	});	
+		res.render('dashboard',{
+			partial:"admin_partials/museums.ejs",
+			museums:museums
+		});	
     });
 });
 
@@ -62,13 +62,22 @@ router.post('/approvereview', function (req, res) {
 		});
 		new_MuseumReveiw.save((err,new_review)=>{
 			User.findOne({_id:review.user_id},(err,user)=>{
-				var index = user.reviews.indexOf(review._id);
+				let user_reviews = user.reviews;
+				let index = user_reviews.indexOf(review._id);
 				if (index > -1) {
-					user.reviews.splice(index, 1);
+					user_reviews.splice(index, 1);
 				}
-				user.reviews.push(new_review._id);
+				user_reviews.push(new_review._id);
+				user.reviews = user_reviews;
 				user.save();
-				review.remove();
+				PendingMuseumReveiw.remove({ _id: req.body.id }, function(err) {
+					Museum.findOne({_id:new_review.museum_id},(err,museum)=>{
+						let temp_revs = museum.reviews;
+						temp_revs.push(new_review._id);
+						museum.reviews = temp_revs;
+						museum.save();
+					})
+				});
 			});
 		});
 	});

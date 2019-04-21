@@ -6,6 +6,7 @@ const mailer = require('../utils/mailer');
 const User = require('../models/User.js');
 const Museum = require('../models/Museum.js');
 const PendingMuseumReveiw = require('../models/PendingMuseumReveiw.js');
+const MuseumReview = require('../models/MuseumReview.js');
 
 
 var pendingUsers = [];
@@ -100,11 +101,15 @@ router.get('/pendinguser/:id', function (req, res) {
 router.get('/unitmuseum/:id', function(req, res){
     Museum.findOne({_id:req.params.id},(err,museum) => {
       if(!museum || err) return res.redirect("/");
-      res.render('layout',{
-          partial:"partials/unit.ejs",
-          museum:museum,
-          transparent:false,
-          user:req.user
+      MuseumReview.find({_id: { $in : museum.reviews }},(err,reviews)=>{
+        if(!reviews || err) return res.redirect("/");
+        res.render('layout',{
+            partial:"partials/unit.ejs",
+            museum:museum,
+            transparent:false,
+            user:req.user,
+            reviews:reviews
+        });
       });
     });
 });
