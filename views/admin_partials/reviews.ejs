@@ -54,6 +54,48 @@
     
         </div>
         <% } %>
+        <% for(let i = 0; i < book_reviews.length; ++i){%>
+          <div class="container-fluid mt-5">
+      
+            <!--Grid row-->
+            <div class="row wow fadeIn">
+      
+              <!--Grid column-->
+              <div class="col-md-12 mb-4">
+      
+                <!--Card-->
+                <div class="card">
+      
+                  <!--Card content-->
+                  <div class="card-body">
+      
+                    <!-- Table  -->
+                    <table class="table table-hover">
+    
+                    <!-- Table body -->
+                    <tbody>
+                        <tr>
+                          <th scope="row">Review Content</th>
+                          <td><%= book_reviews[i].review_content%></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <!-- Table  -->
+                    <button type="button" class="btn btn-success approve-book-review" data-id="<%= book_reviews[i]._id%>">Approve</button>
+                    <button type="button" class="btn btn-danger disprove-book-review" data-id="<%= book_reviews[i]._id%>">Disapprove</button>
+                  </div>
+      
+                </div>
+                <!--/.Card-->
+      
+              </div>
+              <!--Grid column-->
+      
+            </div>
+            <!--grid row-->
+      
+          </div>
+          <% } %>
       </main>
       <!--Main layout-->
 
@@ -103,9 +145,33 @@
                     'Cancel'
                 );
            });
+           $('.disprove-book-review').click((event)=>{
+               pb.prompt(
+                    function (value) {
+                    if(!value) return false;
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '/admin/disprovebookreview', true);
+                        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                        xhr.send(JSON.stringify({'id':$(event.target).data("id"), 'comment': value}));
+                        setTimeout(function(){ location.reload(true); }, 500);
+                    },
+                    'Write you comment',
+                    'input',
+                    '',
+                    'Submit',
+                    'Cancel'
+                );
+           });
            $('.approve-review').click((event)=>{
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', '/admin/approvereview', true);
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhr.send(JSON.stringify({'id':$(event.target).data("id")}));
+                setTimeout(function(){ location.reload(true); }, 1500);
+           });
+           $('.approve-book-review').click((event)=>{
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/admin/approvebookreview', true);
                 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
                 xhr.send(JSON.stringify({'id':$(event.target).data("id")}));
                 setTimeout(function(){ location.reload(true); }, 1500);

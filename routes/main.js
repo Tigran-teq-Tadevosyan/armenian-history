@@ -8,6 +8,8 @@ const Museum = require('../models/Museum.js');
 const PendingMuseumReveiw = require('../models/PendingMuseumReveiw.js');
 const MuseumReview = require('../models/MuseumReview.js');
 const Book = require('../models/Book.js');
+const BookReview = require("../models/BookReview.js");
+const PendingBookReveiw = require("../models/PendingBookReveiw.js");
 
 
 var pendingUsers = [];
@@ -37,12 +39,20 @@ router.get('/profile', function (req, res) {
     if(!user_reviews || err) return res.redirect("/");
     PendingMuseumReveiw.find({user_id: req.user._id},(err,user_pendingreviews)=>{
       if(!user_pendingreviews || err) return res.redirect("/");
-      res.render('layout',{
-        partial:"partials/profile.ejs",
-        transparent: false,
-        user: req.user,
-        reviews: user_reviews,
-        pendingreviews: user_pendingreviews
+      MuseumReview.find({user_id: req.user._id},(err,user_bookreview)=>{
+        if(!user_reviews || err) return res.redirect("/");
+        PendingBookReveiw.find({user_id: req.user._id},(err,user_pendingbookreviews)=>{
+          if(!user_pendingreviews || err) return res.redirect("/")
+          res.render('layout',{
+            partial:"partials/profile.ejs",
+            transparent: false,
+            user: req.user,
+            reviews: user_reviews,
+            pendingreviews: user_pendingreviews,
+            pendingbookreviews: user_pendingbookreviews,
+            bookreview: user_bookreview
+          });
+        });
       });
     });
   });
@@ -127,6 +137,22 @@ router.get('/unitmuseum/:id', function(req, res){
     });
 });
 
+router.get('/unitbook/:id', function(req, res){
+  Book.findOne({_id:req.params.id},(err,book) => {
+    if(!book || err) return res.redirect("/");
+    BookReview.find({_id: { $in : book.reviews }},(err,reviews)=>{
+      if(!reviews || err) return res.redirect("/");
+      res.render('layout',{
+          partial:"partials/unitbook.ejs",
+          book:book,
+          transparent:false,
+          user:req.user,
+          reviews:reviews
+      });
+    });
+  });
+});
+
 router.get('/addreview/:id', function(req, res){
   Museum.findOne({_id:req.params.id},(err,museum) => {
     if(!museum || err) return res.redirect("/");
@@ -139,10 +165,33 @@ router.get('/addreview/:id', function(req, res){
   });
 });
 
+router.get('/addbookreview/:id', function(req, res){
+  Book.findOne({_id:req.params.id},(err,book) => {
+    if(!book || err) return res.redirect("/");
+    res.render('partials/addbookreview.ejs',{
+        partial:"partials/addbookreview.ejs",
+        book:book,
+        transparent:false,
+        user:req.user
+    });
+  });
+});
+
 router.get('/resubmit/:id', function(req, res){
   PendingMuseumReveiw.findOne({_id:req.params.id},(err,review) => {
     if(!review || err) return res.redirect("/");
     res.render('partials/resubmit.ejs',{
+        review:review,
+        transparent:false,
+        user:req.user
+    });
+  });
+});
+
+router.get('/resubmitbook/:id', function(req, res){
+  PendingBookReveiw.findOne({_id:req.params.id},(err,review) => {
+    if(!review || err) return res.redirect("/");
+    res.render('partials/resubmitbook.ejs',{
         review:review,
         transparent:false,
         user:req.user
@@ -198,6 +247,26 @@ router.post('/addreview/:id', function(req, res){
   });
 });
 
+router.post('/addbookreview/:id', function(req, res){
+  Book.findOne({_id:req.params.id},(err,book) => {
+    if(!book || err) return res.redirect("/");
+    let new_PendingBookReveiw = new PendingBookReveiw({
+        book_id: book._id,
+        user_id: req.user._id,
+        username: req.user.username,
+        review_content:req.body.review_content,
+        comment: "",
+        status: "pending"
+    });
+    new_PendingBookReveiw.save((err,pendingReveiw)=>{
+      if(err || !pendingReveiw) return res.redirect('/profile');
+      req.user.reviews.push(pendingReveiw._id);
+      req.user.save();
+      res.redirect('/profile');
+    });
+  });
+});
+
 router.post('/resubmit/:id', function(req, res){
   PendingMuseumReveiw.findOne({_id:req.params.id},(err,review) => {
     if(!review || err) return res.redirect("/");
@@ -205,6 +274,18 @@ router.post('/resubmit/:id', function(req, res){
     review.before_visiting = req.body.before_visiting;
     review.the_visit_itself = req.body.the_visit_itself;
     review.after_visiting = req.body.after_visiting;
+    review.comment = '';
+    review.status = 'pending'
+    review.save(()=>{
+      res.redirect('/profile');
+    });
+  });
+});
+
+router.post('/resubmitbook/:id', function(req, res){
+  PendingBookReveiw.findOne({_id:req.params.id},(err,review) => {
+    if(!review || err) return res.redirect("/");
+    review.review_content = req.body.review_content;
     review.comment = '';
     review.status = 'pending'
     review.save(()=>{
