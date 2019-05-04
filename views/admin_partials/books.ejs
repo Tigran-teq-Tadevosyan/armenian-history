@@ -1,0 +1,110 @@
+
+  <!--Main layout-->
+  <main class="pt-50 mx-lg-5">
+    <div class="container-fluid mt-5">
+
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-md-12 mb-4">
+
+          <!--Card-->
+          <div class="card">
+
+            <!--Card content-->
+            <div class="card-body">
+
+              <!-- Table  -->
+              <table class="table table-hover">
+                <!-- Table head -->
+                <thead class="blue-grey lighten-4">
+                  <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Review Count</th>
+                    <th>Pending Review Count</th>
+                  </tr>
+                </thead>
+                <!-- Table head -->
+
+                <!-- Table body -->
+                <tbody>
+		              <% for(let i = 0; i < books.length; ++i){%>
+                      <tr>
+                        <th scope="row"><%= i+1 %></th>
+                        <td><%= books[i].title%></td>
+                        <td><%= books[i].reviews.length%></td>
+                        <td><%= books[i].pending_reviews.length%></td>
+                      </tr>
+		              <% } %>
+                </tbody>
+                <!-- Table body -->
+              </table>
+              <!-- Table  -->
+	      <button type="button" class="btn btn-success" id="addbook">Add Museum</button>
+            </div>
+
+          </div>
+          <!--/.Card-->
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--grid row-->
+
+    </div>
+  </main>
+  <!--Main layout-->
+
+
+  <!-- Prompt script -->
+  <script>
+
+
+    // This is the prompt script part
+
+    var pb = new PromptBoxes({
+      attrPrefix: 'pb',
+      speeds: {
+        backdrop: 250, // The enter/leaving animation speed of the backdrop
+        toasts: 250 // The enter/leaving animation speed of the toast
+      },
+      prompt: {
+        inputType: 'text', // The type of input 'text' | 'password' etc.
+        submitText: 'Submit', // The text for the submit button
+        submitClass: '', // A class for the submit button
+        cancelText: 'Cancel', // The text for the cancel button
+        cancelClass: '', // A class for the cancel button
+        closeWithEscape: true, // Allow closing with escaping
+        absolute: false // Show prompt popup as absolute
+      }
+    });
+
+    
+    document.getElementById('addbook').onclick = function () {
+      pb.prompt(
+        function (value) {
+           if(!value) return false;
+           //alert('You have: ' + (value ? 'entered ' + value : 'cancelled'));
+           var xhr = new XMLHttpRequest();
+           xhr.open('POST', '/admin/addbook', true);
+           xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+           //xhr.onload = requestComplete;
+           xhr.send(JSON.stringify({'name':value}));
+           setTimeout(function(){ location.reload(true); }, 1000);
+        },
+        'Enter the Book name',
+        'input',
+        '',
+        'Submit',
+        'Cancel'
+      );
+    }
+
+    window.onload = ()=>{
+           $('.sidebar-fixed a').removeClass("active") 
+           $('#link_to_books').addClass("active");
+        };
+  </script>

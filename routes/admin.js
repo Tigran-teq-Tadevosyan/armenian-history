@@ -6,6 +6,7 @@ const User = require('../models/User.js');
 const Museum = require('../models/Museum.js');
 const PendingMuseumReveiw = require('../models/PendingMuseumReveiw.js');
 const MuseumReveiw = require('../models/MuseumReview.js');
+const Book = require('../models/Book.js');
 
 // define the home page route
 router.get('/', function (req, res) {
@@ -15,6 +16,28 @@ router.get('/', function (req, res) {
 			museums:museums
 		});	
     });
+});
+
+// books route
+router.get('/books', function (req, res) {
+	Book.find({},(err,books)=>{
+		res.render('dashboard',{
+			partial:"admin_partials/books.ejs",
+			books:books
+		});	
+	});
+});
+
+// Add Book
+router.post('/addbook', function (req, res) {
+	let new_book = new Book({
+		title:req.body.name,
+		description:"",
+		reviews:[],
+		pending_reviews:[]
+	});
+	new_book.save();
+	res.redirect('/');
 });
 
 // Add Museum

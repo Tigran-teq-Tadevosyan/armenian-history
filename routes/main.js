@@ -7,6 +7,7 @@ const User = require('../models/User.js');
 const Museum = require('../models/Museum.js');
 const PendingMuseumReveiw = require('../models/PendingMuseumReveiw.js');
 const MuseumReview = require('../models/MuseumReview.js');
+const Book = require('../models/Book.js');
 
 
 var pendingUsers = [];
@@ -59,10 +60,14 @@ router.get('/museum', function (req, res) {
 });
 
 router.get('/book', function (req, res) {
-  res.render('layout',{
-    partial:"partials/book.ejs",
-    transparent: false,
-    user: req.user
+
+  Book.find({},(err,books)=>{
+    res.render('layout',{
+        partial:"partials/book.ejs",
+        transparent: false,
+        user: req.user,
+        books: books
+    });
   });
 });
 
