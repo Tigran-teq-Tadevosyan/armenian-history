@@ -39,7 +39,7 @@ router.get('/profile', function (req, res) {
     if(!user_reviews || err) return res.redirect("/");
     PendingMuseumReveiw.find({user_id: req.user._id},(err,user_pendingreviews)=>{
       if(!user_pendingreviews || err) return res.redirect("/");
-      MuseumReview.find({user_id: req.user._id},(err,user_bookreview)=>{
+      BookReview.find({user_id: req.user._id},(err,user_bookreview)=>{
         if(!user_reviews || err) return res.redirect("/");
         PendingBookReveiw.find({user_id: req.user._id},(err,user_pendingbookreviews)=>{
           if(!user_pendingreviews || err) return res.redirect("/")

@@ -35,7 +35,7 @@
                     <div class="card-wrapper media-container-row media-container-row">
                         <div class="card-box">
                             <div class="top-line pb-3">
-                                <p class="mbr-text cost mbr-fonts-style m-0 display-5"><% if(pendingbookreviews[i].status == 'disapproved') { %>Disapproved, comment: <b><%= pendingbookreviews[i].comment %></b><a href="/resubmitbook/<%= pendingbookreviews[i]._id%>"><button type="button" style="padding: 0.25rem 1rem;" class="btn btn-primary">Resubmit</button></a> <% } else { %>Pending for approval<% } %></p>
+                                <p class="mbr-text cost mbr-fonts-style m-0 display-5"><% if(pendingbookreviews[i].status == 'disapproved') { %>Մեժված, մեկնաբանություն: <b><%= pendingbookreviews[i].comment %></b><a href="/resubmitbook/<%= pendingbookreviews[i]._id%>"><button type="button" style="padding: 0.25rem 1rem;" class="btn btn-primary">Ձևափոխել</button></a> <% } else { %>Սպասվում է հաստատման<% } %></p>
                             </div>
                             <div class="bottom-line" style="padding-bottom:10px">
                                 <p class="mbr-text mbr-fonts-style m-0 b-descr display-7">
@@ -53,7 +53,7 @@
                     <div class="card-wrapper media-container-row media-container-row">
                         <div class="card-box">
                             <div class="top-line pb-3">
-                                <p class="mbr-text cost mbr-fonts-style m-0 display-5"><% if(pendingreviews[i].status == 'disapproved') { %>Disapproved, comment: <b><%= pendingreviews[i].comment %></b><a href="/resubmit/<%= pendingreviews[i]._id%>"><button type="button" style="padding: 0.25rem 1rem;" class="btn btn-primary">Resubmit</button></a> <% } else { %>Pending for approval<% } %></p>
+                                <p class="mbr-text cost mbr-fonts-style m-0 display-5"><% if(pendingreviews[i].status == 'disapproved') { %>Մեժված, մեկնաբանություն: <b><%= pendingreviews[i].comment %></b><a href="/resubmit/<%= pendingreviews[i]._id%>"><button type="button" style="padding: 0.25rem 1rem;" class="btn btn-primary">Ձևափոխել</button></a> <% } else { %>Սպասվում է հաստատման<% } %></p>
                             </div>
                             <div class="bottom-line" style="padding-bottom:10px">
                                 <p class="mbr-text mbr-fonts-style m-0 b-descr display-7">
