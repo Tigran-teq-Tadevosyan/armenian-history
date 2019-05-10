@@ -116,6 +116,7 @@ router.get('/pendinguser/:id', function (req, res) {
     password: user.password
   });
   new_user.save(function(err, new_user){
+    if (err) return console.log(err);
     res.cookie("userdata", new_user._id); 
     res.redirect("/");
   });
